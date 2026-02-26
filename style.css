@@ -1,0 +1,434 @@
+/* 
+   Production Process Design System 
+   Framework: Pure CSS (No Tailwind)
+*/
+
+:root {
+  /* Color Palette */
+  --bg-dark: #07090e;
+  --bg-card: #0f172a;
+  --primary: #6366f1;
+  --accent: #22d3ee;
+  --text-main: #f8fafc;
+  --text-dim: #94a3b8;
+  --text-muted: #64748b;
+  --border: rgba(255, 255, 255, 0.08);
+  --glass: rgba(15, 23, 42, 0.7);
+
+  /* Semantic Colors */
+  --success: #10b981;
+  --error: #f43f5e;
+  --warning: #f59e0b;
+
+  /* Spacing */
+  --container-max: 900px;
+  --section-gap: 4rem;
+}
+
+/* Base Reset & Typography */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  font-family:
+    "Inter",
+    system-ui,
+    -apple-system,
+    sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+.display-text {
+  font-family: "Outfit", sans-serif;
+  font-weight: 800;
+}
+
+/* Layout Utilities */
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.ambient-glow {
+  position: fixed;
+  width: 60vw;
+  height: 60vw;
+  border-radius: 50%;
+  filter: blur(120px);
+  z-index: -1;
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+.top-left {
+  top: -20%;
+  left: -20%;
+  background: var(--primary);
+}
+
+.bottom-right {
+  bottom: -20%;
+  right: -20%;
+  background: var(--accent);
+}
+
+/* Header */
+.hero-header {
+  text-align: center;
+  padding: 6rem 0 4rem;
+}
+
+.display-text {
+  font-size: clamp(3rem, 10vw, 5rem);
+  background: linear-gradient(to right, #fff, rgb(23, 64, 153));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1;
+  margin-bottom: 1.5rem;
+}
+
+.subtitle {
+  font-size: 1.25rem;
+  color: var(--text-dim);
+  max-width: 600px;
+  margin: 0 auto;
+  font-weight: 300;
+}
+
+/* Workflow Stepper - Step-like Structure */
+.workflow-stepper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  padding-left: 3rem; /* Space for the vertical line */
+}
+
+/* The Vertical Step Line */
+.workflow-stepper::before {
+  content: "";
+  position: absolute;
+  left: 1.25rem;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(
+    to bottom,
+    var(--primary) 0%,
+    var(--accent) 50%,
+    var(--success) 100%
+  );
+  opacity: 0.3;
+  border-radius: 2px;
+}
+
+/* Step Card Styling */
+.step-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  gap: 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 1.5rem 2rem;
+  border-radius: 1.25rem;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+  align-items: center;
+  backdrop-filter: blur(12px);
+}
+
+/* The Dot/Node on the Timeline */
+.step-card::before {
+  content: "";
+  position: absolute;
+  left: -2.15rem; /* Precise alignment with the container's line */
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  background: var(--bg-dark);
+  border: 3px solid var(--primary);
+  border-radius: 50%;
+  z-index: 2;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.step-card:hover::before {
+  background: var(--primary);
+  transform: translateY(-50%) scale(1.4);
+  box-shadow: 0 0 15px var(--primary);
+  border-color: #fff;
+}
+
+.step-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+.step-number {
+  font-family: "Outfit", sans-serif;
+  font-size: 1.5rem;
+  color: var(--primary);
+  background: rgba(99, 102, 241, 0.05);
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(99, 102, 241, 0.1);
+}
+
+.step-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.step-title {
+  font-size: 1.5rem;
+}
+
+.step-desc {
+  color: var(--text-dim);
+  font-size: 1rem;
+}
+
+code {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.4rem;
+  color: var(--accent);
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+/* Badges */
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 2rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  width: fit-content;
+  margin-bottom: 0.5rem;
+}
+
+.badge-setup {
+  background: rgba(99, 102, 241, 0.1);
+  color: #818cf8;
+}
+.badge-production {
+  background: rgba(51, 65, 85, 0.2);
+  color: #f8fafc;
+}
+.badge-staging {
+  background: rgba(6, 182, 212, 0.1);
+  color: #22d3ee;
+}
+.badge-dev {
+  background: rgba(245, 158, 11, 0.1);
+  color: #fbbf24;
+}
+.badge-sync {
+  background: rgba(168, 85, 247, 0.1);
+  color: #c084fc;
+}
+.badge-integration {
+  background: rgba(249, 115, 22, 0.1);
+  color: #fb923c;
+}
+.badge-verification {
+  background: rgba(244, 63, 94, 0.1);
+  color: #fb7185;
+}
+
+/* Decision Card */
+.decision-container {
+  margin-top: 4rem;
+  position: relative;
+}
+
+/* Node for the Decision Card on the timeline */
+.decision-container::before {
+  content: "";
+  position: absolute;
+  left: -2.15rem;
+  top: 3rem; /* Aligns with the top part of the decision block */
+  width: 14px;
+  height: 14px;
+  background: var(--bg-dark);
+  border: 3px solid var(--accent);
+  border-radius: 50%;
+  z-index: 2;
+}
+
+.decision-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 3rem;
+  border-radius: 2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.glass {
+  backdrop-filter: blur(12px);
+}
+
+.decision-icon {
+  color: var(--primary);
+  opacity: 0.3;
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+}
+
+.decision-heading {
+  font-size: 2.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.decision-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.decision-path {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 1.5rem;
+  border-radius: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.path-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.path-success .path-label {
+  color: var(--success);
+}
+.path-failure .path-label {
+  color: var(--error);
+}
+
+.path-title {
+  font-size: 1.25rem;
+}
+
+.path-desc {
+  font-size: 0.9rem;
+  color: var(--text-dim);
+}
+
+/* Footer */
+.main-footer {
+  text-align: center;
+  padding: 6rem 0 2rem;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .workflow-stepper {
+    padding-left: 2rem;
+  }
+
+  .workflow-stepper::before {
+    left: 0.75rem;
+  }
+
+  .step-card::before {
+    left: -1.65rem;
+  }
+
+  .decision-container::before {
+    left: -1.65rem;
+    top: 2rem;
+  }
+
+  .hero-header {
+    padding: 4rem 0 2rem;
+  }
+
+  .step-card {
+    grid-template-columns: 1fr;
+    text-align: left;
+    padding: 1.5rem;
+  }
+
+  .step-number {
+    display: none; /* Hide number on small mobile to save space, rely on nodes */
+  }
+
+  .badge {
+    margin: 0 0 1rem;
+  }
+
+  .decision-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .decision-heading {
+    font-size: 1.75rem;
+  }
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal {
+  animation: fadeInUp 0.8s ease backwards;
+}
+
+.reveal:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.reveal:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.reveal:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.reveal:nth-child(4) {
+  animation-delay: 0.4s;
+}
+/* ... and so on */
